@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+  <title>Список студентов</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+<h1>Список студентов</h1>
+<form action="#" th:action="@{/students}" method="post" th:object="${student}">
+  <input type="text" th:field="*{name}" placeholder="Имя" required/>
+  <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+  <input type="email" th:field="*{email}" placeholder="Email" required />
+  <div th:if="${#fields.hasErrors('email')}" style="color:red !important;">
+    <span th:errors="*{email}"></span>
+  </div>
+  <p th:text="${message}" style="color: red;"></p>
+  <button type="submit">Добавить студента</button>
+
+</form>
+
+<h2>Существующие студенты:</h2>
+<ul>
+  <li th:each="student : ${students}">
+    <span th:text="${student.name}">Имя студента</span> -
+    <span th:text="${student.email}">Email студента</span>
+    <a th:href="@{/students/edit/{id}(id=${student.id})}">Редактировать</a>
+    <a th:href="@{/students/delete/{id}(id=${student.id})}" onclick="return confirm('Вы уверены, что хотите удалить?');">Удалить</a>
+  </li>
+</ul>
+</body>
+</html>
